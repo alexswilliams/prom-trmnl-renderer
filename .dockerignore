@@ -1,0 +1,5 @@
+build/package/Dockerfile
+.idea
+.github
+bin
+.gitignore
