@@ -1,6 +1,6 @@
 module prom-trmnl-renderer
 
-go 1.24
+go 1.24.4
 
 require (
 	github.com/aws/aws-sdk-go v1.55.7

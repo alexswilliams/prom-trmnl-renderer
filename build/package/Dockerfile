@@ -1,5 +1,5 @@
 
-FROM docker.io/golang:1.24.2-bookworm AS build
+FROM docker.io/golang:1.24.4-bookworm AS build
 WORKDIR /go/src/app
 COPY ../../go.mod ../../go.sum ../../Makefile ./
 RUN make deps

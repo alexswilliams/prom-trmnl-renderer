@@ -1,6 +1,6 @@
 CGO_ENABLED=0
 
-bin/main: deps $(shell find . -name '*.go')
+bin/main: $(shell find . -name '*.go')
 	CGO_ENABLED=0 go build -o bin/main -a cmd/main.go
 	ldd bin/main || true
 
