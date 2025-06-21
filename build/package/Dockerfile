@@ -12,6 +12,7 @@ ADD https://github.com/notofonts/notofonts.github.io/raw/refs/heads/main/fonts/N
 FROM scratch
 WORKDIR /app
 COPY --from=fonts /usr/share/fonts/truetype/noto/NotoSans-Bold.ttf /usr/share/fonts/truetype/noto/
-COPY --from=build /usr/share/zoneinfo/Europe/London /usr/share/zoneinfo/Europe/London
+# zone db is probably better mounted from the host than bundled with the image...
+# COPY --from=build /usr/share/zoneinfo/Europe/London /usr/share/zoneinfo/Europe/London
 COPY --from=build /go/src/app/bin/main ./
 CMD ["/app/main"]
