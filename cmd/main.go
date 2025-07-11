@@ -37,7 +37,7 @@ func closeOnSigInt(channel chan bool) chan bool {
 
 func drawAndUpload() {
 	outdoorTemps := trmnl.FetchLast48Hours("min(govee_temperature_celsius{alias=~\"Outside.*\"})")
-	indoorTemps := trmnl.FetchLast48Hours("max(govee_temperature_celsius{alias!~\"Outside.*|Fridge\"})")
+	indoorTemps := trmnl.FetchLast48Hours("max(govee_temperature_celsius{alias!~\"Outside.*|Fridge|Car\"})")
 
 	img := trmnl.NewCanvas()
 	trmnl.RenderTempGraphs(img, outdoorTemps, indoorTemps)
