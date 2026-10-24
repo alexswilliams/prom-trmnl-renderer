@@ -35,23 +35,23 @@ func FetchLast48Hours(query string) []float64 {
 	if err != nil {
 		log.Fatal(err)
 	}
-	var x map[string]interface{}
+	var x map[string]any
 	if err := json.Unmarshal(body, &x); err != nil {
 		log.Fatal(err)
 	}
 	if (x["status"]) != "success" {
 		log.Fatal("Prom response not successful")
 	}
-	data := x["data"].(map[string]interface{})
-	result := data["result"].([]interface{})
+	data := x["data"].(map[string]any)
+	result := data["result"].([]any)
 	if len(result) != 1 {
 		log.Fatal("Expected 1 result, got " + strconv.Itoa(len(result)))
 	}
-	firstResult := result[0].(map[string]interface{})
-	values := firstResult["values"].([]interface{})
+	firstResult := result[0].(map[string]any)
+	values := firstResult["values"].([]any)
 	var temperatures = make([]float64, len(values))
-	for i := 0; i < len(values); i++ {
-		value := values[i].([]interface{})
+	for i := range values {
+		value := values[i].([]any)
 		temperatures[i], err = strconv.ParseFloat(value[1].(string), 64)
 	}
 	return temperatures

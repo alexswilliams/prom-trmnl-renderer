@@ -1,5 +1,5 @@
 
-FROM docker.io/golang:1.24.4-bookworm AS build
+FROM docker.io/golang:1.27.3-bookworm AS build
 WORKDIR /go/src/app
 COPY ../../go.mod ../../go.sum ../../Makefile ./
 RUN make deps
@@ -7,7 +7,7 @@ COPY ../.. ./
 RUN make bin/main
 
 FROM scratch AS fonts
-ADD https://github.com/notofonts/notofonts.github.io/raw/refs/heads/main/fonts/NotoSans/full/ttf/NotoSans-Bold.ttf /usr/share/fonts/truetype/noto/
+ADD https://github.com/notofonts/notofonts.github.io/raw/refs/heads/main/fonts/NotoSans/full/ttf/NotoSans-Regular.ttf /usr/share/fonts/truetype/noto/
 
 FROM scratch
 WORKDIR /app

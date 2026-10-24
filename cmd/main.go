@@ -31,7 +31,11 @@ func main() {
 func closeOnSigInt(channel chan bool) chan bool {
 	var signals = make(chan os.Signal, 1)
 	signal.Notify(signals, os.Interrupt)
-	go func() { <-signals; println("Received SIGINT"); close(channel) }()
+	go func() {
+		<-signals
+		println("Received SIGINT")
+		close(channel)
+	}()
 	return channel
 }
 
@@ -44,10 +48,6 @@ func drawAndUpload() {
 
 	pngBytes := encodeToPng(img)
 	trmnl.UploadToS3(pngBytes)
-
-	//if err := os.WriteFile("/tmp/out.png", pngBytes, 0644); err != nil {
-	//	log.Fatal(err)
-	//}
 }
 
 func encodeToPng(img *image.Paletted) []byte {

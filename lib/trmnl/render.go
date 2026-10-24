@@ -1,9 +1,6 @@
 package trmnl
 
 import (
-	"github.com/golang/freetype/truetype"
-	"golang.org/x/image/font"
-	"golang.org/x/image/math/fixed"
 	"image"
 	"image/color"
 	"log"
@@ -11,6 +8,10 @@ import (
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/golang/freetype/truetype"
+	"golang.org/x/image/font"
+	"golang.org/x/image/math/fixed"
 )
 
 var (
@@ -29,8 +30,8 @@ func loadLondonTimezone() *time.Location {
 func NewCanvas() *image.Paletted {
 	const width, height = 800, 480
 	img := image.NewPaletted(image.Rect(0, 0, width, height), color.Palette{color.Black, color.White})
-	for y := 0; y < height; y++ {
-		for x := 0; x < width; x++ {
+	for y := range height {
+		for x := range width {
 			img.Set(x, y, color.White)
 		}
 	}
@@ -38,9 +39,9 @@ func NewCanvas() *image.Paletted {
 }
 
 func RenderTempGraphs(img *image.Paletted, outdoorTemps []float64, indoorTemps []float64) {
-	annotationDrawer := fontDrawerForSize(img, fontFile, 11)
-	titleDrawer := fontDrawerForSize(img, fontFile, 14)
-	statDrawer := fontDrawerForSize(img, fontFile, 42)
+	annotationDrawer := fontDrawerForSize(img, fontFile, 6)
+	titleDrawer := fontDrawerForSize(img, fontFile, 8)
+	statDrawer := fontDrawerForSize(img, fontFile, 24)
 
 	maxOutdoor := renderTempGraph(outdoorTemps, img, 200, 10, 20, annotationDrawer)
 	maxIndoor := renderTempGraph(indoorTemps, img, 200, 10, 260, annotationDrawer)
@@ -74,6 +75,7 @@ func fontDrawerForSize(img *image.Paletted, loadedFont *truetype.Font, size floa
 		Face: truetype.NewFace(loadedFont, &truetype.Options{
 			Size:    size,
 			Hinting: font.HintingFull,
+			DPI:     128.0,
 		}),
 	}
 }
@@ -81,7 +83,7 @@ func fontDrawerForSize(img *image.Paletted, loadedFont *truetype.Font, size floa
 func renderTempGraph(temps []float64, img *image.Paletted, graphHeight int, graphLeft int, graphTop int, drawer *font.Drawer) float64 {
 	var maxTemp = -1000.0
 	var minTemp = +1000.0
-	for i := 0; i < len(temps); i++ {
+	for i := range temps {
 		if temps[i] < minTemp {
 			minTemp = temps[i]
 		}
@@ -92,7 +94,7 @@ func renderTempGraph(temps []float64, img *image.Paletted, graphHeight int, grap
 	var tempRange = maxTemp - minTemp
 
 	var lastY = -1000.0
-	for i := 0; i < len(temps); i++ {
+	for i := range temps {
 		x := i + graphLeft
 		thisY := float64(graphTop) + float64(graphHeight)*0.90 - ((temps[i]-minTemp)/tempRange)*float64(graphHeight)*0.80
 		img.Set(x, int(thisY), color.Black)
@@ -133,7 +135,7 @@ func renderTempGraph(temps []float64, img *image.Paletted, graphHeight int, grap
 }
 
 func loadFont() *truetype.Font {
-	fontFile, err := os.ReadFile("/usr/share/fonts/truetype/noto/NotoSans-Bold.ttf")
+	fontFile, err := os.ReadFile("/usr/share/fonts/truetype/noto/NotoSans-Regular.ttf")
 	if err != nil {
 		log.Fatal(err)
 	}

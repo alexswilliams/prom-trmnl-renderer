@@ -8,7 +8,9 @@ deps: go.mod
 	go mod download
 
 run: bin/main
-	./bin/main
+	PROMETHEUS_URI=http://192.168.6.10:9090 \
+	WRITE_TO_FILE_PATH=/tmp/out.png \
+		./bin/main
 
 clean:
 	rm -rf bin vendor
