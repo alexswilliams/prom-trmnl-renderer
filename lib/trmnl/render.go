@@ -29,7 +29,9 @@ func loadLondonTimezone() *time.Location {
 
 func NewCanvas() *image.Paletted {
 	const width, height = 800, 480
-	img := image.NewPaletted(image.Rect(0, 0, width, height), color.Palette{color.Black, color.White})
+	img := image.NewPaletted(image.Rect(0, 0, width, height), color.Palette{
+		color.Black, color.Gray16{Y: 0x5555}, color.Gray16{Y: 0xaaaa}, color.White,
+	})
 	for y := range height {
 		for x := range width {
 			img.Set(x, y, color.White)
