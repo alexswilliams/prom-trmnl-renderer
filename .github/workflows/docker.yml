@@ -1,4 +1,4 @@
-name: Publish master to DockerHub
+name: Publish Docker Image
 
 on:
   workflow_run:
@@ -8,10 +8,6 @@ on:
       - "master"
     types:
       - "completed"
-
-permissions:
-  contents: read
-  packages: write
 
 jobs:
   Publish_Docker_Image:
