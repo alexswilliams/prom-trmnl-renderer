@@ -43,7 +43,7 @@ jobs:
           SOURCE_DATE_EPOCH: ${{ env.TIMESTAMP }}
         with:
           context: .
-          file: package/Dockerfile
+          file: ./build/package/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64/v8
           tags: "ghcr.io/alexswilliams/prom-trmnl-renderer:${{ github.ref_name }}--${{ steps.params.outputs.date }}--${{ steps.params.outputs.shortRef }}"
