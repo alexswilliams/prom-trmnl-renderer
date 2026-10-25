@@ -18,14 +18,14 @@ jobs:
         id: params
         run: |
           echo "date=$(date +%Y-%m-%d-%H-%M)" >> $GITHUB_OUTPUT
-          echo "shortRef=$(head -c 7 <<< '${{ github.sha }}')" >> $GITHUB_OUTPUT
+          echo "shortRef=$(head -c 7 <<< '${{ forgejo.sha }}')" >> $GITHUB_OUTPUT
 
-      - name: Login to GitHub Container Registry
+      - name: Login to Container Registry
         uses: docker/login-action@v4.7.0
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ secrets.CODEBERG_USER }}
+          password: ${{ secrets.CODEBERG_TOKEN }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4.4.0
@@ -46,4 +46,4 @@ jobs:
           file: ./build/package/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64/v8
-          tags: "ghcr.io/alexswilliams/prom-trmnl-renderer:${{ github.ref_name }}--${{ steps.params.outputs.date }}--${{ steps.params.outputs.shortRef }}"
+          tags: "ghcr.io/alexswilliams/prom-trmnl-renderer:${{ forgejo.ref_name }}--${{ steps.params.outputs.date }}--${{ steps.params.outputs.shortRef }}"

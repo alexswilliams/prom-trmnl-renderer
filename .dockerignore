@@ -1,5 +1,5 @@
 build/package/Dockerfile
 .idea
-.github
+.forgejo
 bin
 .gitignore
